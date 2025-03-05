@@ -462,6 +462,7 @@ function createSTLRow() {
     } catch (error) {
       console.error(`Error changing orientation for row ${rowId}:`, error);
     }
+    updatePrintTimeDisplay();
   }
   
   // Update STL results based on current data
@@ -716,3 +717,33 @@ function createSTLRow() {
       e.target.classList.remove('invalid');
     }
   }
+
+// Add this to ui-handlers.js or another appropriate file
+function setupBatchEventHandlers() {
+    const calculateBatchBtn = document.getElementById('calculate-batch');
+    if (calculateBatchBtn) {
+      calculateBatchBtn.addEventListener('click', function() {
+        // Your batch calculation logic
+        console.log('Calculate batch clicked');
+      });
+    }
+  }
+  
+  function setupMaterialEventHandlers() {
+    const calculateMaterialsBtn = document.getElementById('calculate-materials');
+    if (calculateMaterialsBtn) {
+      calculateMaterialsBtn.addEventListener('click', function() {
+        // Your material calculation logic
+        console.log('Calculate materials clicked');
+      });
+    }
+  }
+
+  // Add or modify in ui-handlers.js
+document.addEventListener('DOMContentLoaded', function() {
+    const calculateBtn = document.getElementById('calculateBtn');
+    if (calculateBtn) {
+      calculateBtn.addEventListener('click', calculateManualResults);
+      console.log('Added event listener for manual calculation');
+    }
+  });

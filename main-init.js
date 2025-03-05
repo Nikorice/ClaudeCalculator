@@ -397,3 +397,31 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Load material settings on initialization
   setTimeout(loadMaterialSettings, 1500);
+
+  // Add this to your app.js or main-init.js:
+function initTabNavigation() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+        
+        // Remove active class from all buttons and tabs
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Add active class to current button and tab
+        btn.classList.add('active');
+        const tabElement = document.getElementById(`${tabId}-tab`);
+        if (tabElement) {
+          tabElement.classList.add('active');
+        }
+      });
+    });
+  }
+  
+  // Call this function after DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    initTabNavigation();
+  });

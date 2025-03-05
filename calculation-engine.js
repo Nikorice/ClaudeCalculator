@@ -478,3 +478,63 @@ function calculateCostAndPacking(dimensions, volume, applyGlaze = true, currency
       errorEl.style.display = 'none';
     }, 5000);
   }
+
+  // Function to update print time in the green box
+// Updated Print Time Box Solution with Matching Design
+
+/**
+ * Updates the print time display for both printer models.
+ * Matches design of other stat boxes and shows two dashes when object is too large.
+ */
+function updatePrintTimeDisplay() {
+    // Find all STL rows
+    document.querySelectorAll('.stl-row').forEach(row => {
+      // Get the current orientation
+      const orientation = row.querySelector('.orientation-btn.active')?.getAttribute('data-orientation') || 'flat';
+      
+      // Get the stats grid
+      const statsGrid = row.querySelector('.stats-grid');
+      if (!statsGrid) return;
+      
+      // Get or create the print time box (as the third stat box)
+      let printTimeBox = statsGrid.children[2];
+      
+      if (!printTimeBox) {
+        printTimeBox = document.createElement('div');
+        printTimeBox.className = 'stat-box'; // Use the same class as other stat boxes
+        statsGrid.appendChild(printTimeBox);
+      }
+      
+      // Get dimensions from the row data
+      const dimensions = row.dimensions || { height: 56.5, width: 245.6, depth: 65.7 };
+      
+      // Calculate if object fits in each printer
+      const fits400 = checkFitsInPrinter(dimensions, orientation, printer400);
+      const fits600 = checkFitsInPrinter(dimensions, orientation, printer600);
+      
+      // Calculate print times or set to dashes if doesn't fit
+      const printTime400 = fits400 ? calculatePrintTime(dimensions, orientation, printer400) : '--';
+      const printTime600 = fits600 ? calculatePrintTime(dimensions, orientation, printer600) : '--';
+      
+      // Update the box content
+      printTimeBox.innerHTML = `
+        <div class="stat-value">
+          ${printTime400} / ${printTime600}
+        </div>
+        <div class="stat-label">Print Time (400/600)</div>
+      `;
+    });
+  }
+  
+  // Call on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(updatePrintTimeDisplay, 1000);
+  });
+  
+  // Update when orientation changes
+  document.addEventListener('click', function(event) {
+    const orientationBtn = event.target.closest('.orientation-btn');
+    if (orientationBtn) {
+      setTimeout(updatePrintTimeDisplay, 100);
+    }
+  });

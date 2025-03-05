@@ -138,3 +138,18 @@ const perfMonitor = {
       console.warn('Web Workers not supported. Processing will happen on the main thread.');
     }
   }
+
+  // In core-constants.js
+// Only declare if not already defined
+if (typeof POWDER_KG_PER_CM3 === 'undefined') {
+    const POWDER_KG_PER_CM3 = 0.002; // 2g per cm³
+  }
+  
+  if (typeof BINDER_ML_PER_CM3 === 'undefined') {
+    const BINDER_ML_PER_CM3 = 0.27; // 270ml per liter
+  }
+  
+  if (typeof SILICA_G_PER_CM3 === 'undefined') {
+    const SILICA_G_PER_CM3 = 0.55; // 0.55g per cm³
+  }
+  
